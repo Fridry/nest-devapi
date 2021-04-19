@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateConnectorDto } from './dto/create-connector.dto';
-import { ConnectorStatus } from './enums/connector-status.enum';
+import { FindConnectorsFilterDto } from './dto/find-connectors-filter.dto';
 import { Connector, ConnectorDocument } from './schemas/connector.schema';
 
 @Injectable()
@@ -11,8 +11,20 @@ export class ConnectorService {
     @InjectModel('Connector') private connectorModel: Model<ConnectorDocument>,
   ) {}
 
-  async findAll(): Promise<Connector[]> {
-    return await this.connectorModel.find().exec();
+  async find(filterDto: FindConnectorsFilterDto): Promise<Connector[]> {
+    const conditions = { isDeleted: false };
+    const { name, category, type, privacy } = filterDto;
+
+    if (name)
+      Object.assign(conditions, { name: { $regex: name, $options: 'i' } });
+
+    if (category) Object.assign(conditions, { category });
+
+    if (type) Object.assign(conditions, { type });
+
+    if (privacy) Object.assign(conditions, { privacy });
+
+    return await this.connectorModel.find(conditions).exec();
   }
 
   async findOne(id: string): Promise<Connector> {
@@ -50,7 +62,8 @@ export class ConnectorService {
 
     if (foundConnector) {
       await this.connectorModel.findByIdAndUpdate(id, {
-        status: ConnectorStatus.UNAVAILABLE,
+        isDeleted: true,
+        deletedAt: new Date(),
       });
     }
   }

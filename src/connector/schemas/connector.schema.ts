@@ -6,7 +6,7 @@ import { ConnectorType } from '../enums/connector-type.enum';
 
 export type ConnectorDocument = Connector & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Connector {
   @Prop({ required: true })
   name: string;
@@ -40,6 +40,12 @@ export class Connector {
     default: ConnectorStatus.AVAILABLE,
   })
   status: string;
+
+  @Prop({ default: false })
+  isDeleted: boolean;
+
+  @Prop()
+  deletedAt: Date;
 }
 
 export const ConnectorSchema = SchemaFactory.createForClass(Connector);

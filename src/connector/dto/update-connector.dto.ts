@@ -1,23 +1,16 @@
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsDate,
-  IsString,
-  IsOptional,
-  IsIn,
-} from 'class-validator';
+import { IsBoolean, IsDate, IsString, IsOptional, IsIn } from 'class-validator';
 
 import { ConnectorPrivacy } from '../enums/connector-privacy.enum';
 import { ConnectorStatus } from '../enums/connector-status.enum';
 import { ConnectorType } from '../enums/connector-type.enum';
 
-export class CreateConnectorDto {
+export class UpdateConnectorDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   name: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @IsIn([ConnectorType.BD, ConnectorType.REST, ConnectorType.SOAP])
   type: ConnectorType;
 
@@ -27,7 +20,7 @@ export class CreateConnectorDto {
   privacy: ConnectorPrivacy;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   baseUrl: string;
 
   @IsString()
