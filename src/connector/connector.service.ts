@@ -16,7 +16,9 @@ export class ConnectorService {
     const { name, category, type, privacy } = filterDto;
 
     if (name)
-      Object.assign(conditions, { name: { $regex: name, $options: 'i' } });
+      Object.assign(conditions, {
+        name: { $regex: '.*' + name + '.*', $options: 'i' },
+      });
 
     if (category) Object.assign(conditions, { category });
 

@@ -9,7 +9,9 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ConnectorService } from './connector.service';
 import { CreateConnectorDto } from './dto/create-connector.dto';
 import { FindConnectorsFilterDto } from './dto/find-connectors-filter.dto';
@@ -17,6 +19,7 @@ import { UpdateConnectorDto } from './dto/update-connector.dto';
 import { Connector } from './schemas/connector.schema';
 
 @Controller('connector')
+@UseGuards(AuthGuard())
 export class ConnectorController {
   constructor(private connectorServices: ConnectorService) {}
 
@@ -24,8 +27,6 @@ export class ConnectorController {
   find(
     @Query(ValidationPipe) filterDto: FindConnectorsFilterDto,
   ): Promise<Connector[]> {
-    console.log(filterDto);
-
     return this.connectorServices.find(filterDto);
   }
 
