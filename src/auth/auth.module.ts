@@ -11,7 +11,7 @@ import { UserSchema } from './schemas/user.schema';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: 'jfaxAiIcQBlJOiV9hOOb+JNaHha7si1R3Wb18IrXzlU=',
+      secret: `${process.env.SECRET}`,
       signOptions: {
         expiresIn: 86400,
       },

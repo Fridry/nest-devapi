@@ -41,8 +41,6 @@ export class ConnectorService {
         createdByUserId: userId,
       });
 
-    console.log(conditions);
-
     return await this.connectorModel.find(conditions).exec();
   }
 

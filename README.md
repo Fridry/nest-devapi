@@ -35,6 +35,8 @@ API criada para o desafio da vaga de desenvolvedor Backend.
 $ npm install
 ```
 
+Crie um arquivo .env ou renomeie o arquivo .exemple.env para .env e preencha com as informações necessárias: Usuário e senha do banco de dados e segredo JWT.
+
 ## Rodar a API
 
 ```bash
