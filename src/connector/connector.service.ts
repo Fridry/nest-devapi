@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CreateConnectorDto } from './dto/create-connector.dto';
 import { FindConnectorsFilterDto } from './dto/find-connectors-filter.dto';
+import { ConnectorPrivacy } from './enums/connector-privacy.enum';
 import { Connector, ConnectorDocument } from './schemas/connector.schema';
 
 @Injectable()
@@ -19,7 +20,6 @@ export class ConnectorService {
 
     const conditions = {
       isDeleted: false,
-      createdByUserId: userId,
     };
     const { name, category, type, privacy } = filterDto;
 
@@ -32,7 +32,16 @@ export class ConnectorService {
 
     if (type) Object.assign(conditions, { type });
 
-    if (privacy) Object.assign(conditions, { privacy });
+    if (!privacy || privacy === ConnectorPrivacy.PUBLIC)
+      Object.assign(conditions, { privacy: ConnectorPrivacy.PUBLIC });
+
+    if (privacy && privacy === ConnectorPrivacy.PRIVATE)
+      Object.assign(conditions, {
+        privacy: ConnectorPrivacy.PRIVATE,
+        createdByUserId: userId,
+      });
+
+    console.log(conditions);
 
     return await this.connectorModel.find(conditions).exec();
   }
