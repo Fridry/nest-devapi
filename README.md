@@ -16,8 +16,8 @@ API criada para o desafio da vaga de desenvolvedor Backend.
 
 ## Objetivos secundários:
 
-- [x] Implementar testes;
-- [x] Documentar a API utilizando o Swagger;
+- [ ] Implementar testes;
+- [ ] Documentar a API utilizando o Swagger;
 
 ## Tecnologias usadas:
 
