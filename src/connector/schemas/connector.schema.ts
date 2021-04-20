@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { ConnectorPrivacy } from '../enums/connector-privacy.enum';
 import { ConnectorStatus } from '../enums/connector-status.enum';
 import { ConnectorType } from '../enums/connector-type.enum';
@@ -40,6 +40,9 @@ export class Connector {
     default: ConnectorStatus.AVAILABLE,
   })
   status: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  createdByUserId: string;
 
   @Prop({ default: false })
   isDeleted: boolean;

@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ConnectorService } from './connector.service';
@@ -26,21 +27,23 @@ export class ConnectorController {
   @Get()
   find(
     @Query(ValidationPipe) filterDto: FindConnectorsFilterDto,
+    @Req() request: any,
   ): Promise<Connector[]> {
-    return this.connectorServices.find(filterDto);
+    return this.connectorServices.find(filterDto, request);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Connector> {
-    return this.connectorServices.findOne(id);
+  findOne(@Param('id') id: string, @Req() request: any): Promise<Connector> {
+    return this.connectorServices.findOne(id, request);
   }
 
   @Post()
   @UsePipes(ValidationPipe)
   async create(
     @Body() createConnectorDto: CreateConnectorDto,
+    @Req() request: any,
   ): Promise<Connector> {
-    return this.connectorServices.create(createConnectorDto);
+    return this.connectorServices.create(createConnectorDto, request);
   }
 
   @Put(':id')
@@ -48,12 +51,13 @@ export class ConnectorController {
   async update(
     @Body() updateConnectorDto: UpdateConnectorDto,
     @Param('id') id: string,
+    @Req() request: any,
   ): Promise<Connector> {
-    return this.connectorServices.update(id, updateConnectorDto);
+    return this.connectorServices.update(id, updateConnectorDto, request);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<void> {
-    return this.connectorServices.delete(id);
+  async delete(@Param('id') id: string, @Req() request: any): Promise<void> {
+    return this.connectorServices.delete(id, request);
   }
 }
